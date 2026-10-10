@@ -5,7 +5,7 @@ import com.example.detectordequeda.domain.model.FallResult
 import com.example.detectordequeda.domain.model.Landmark
 import com.example.detectordequeda.domain.model.PoseAnalysis
 import kotlin.math.abs
-import kotlin.math.atan
+import kotlin.math.atan2
 
 object FallDetector {
     // ângulo (em graus, em relação à vertical) para determinar a postura
@@ -19,7 +19,7 @@ object FallDetector {
     private const val RIGHT_HIP = 24
     private const val MIN_LANDMARKS = RIGHT_HIP + 1
 
-    fun analyze(landmarks: List<Landmark>): PoseAnalysis? {
+    fun analyze(landmarks: List<Landmark>, aspectRatio: Float = 1f): PoseAnalysis? {
         if (landmarks.size < MIN_LANDMARKS) return null
 
         val shoulderMid = midpoint(landmarks[LEFT_SHOULDER], landmarks[RIGHT_SHOULDER])
@@ -29,18 +29,16 @@ object FallDetector {
             landmarks = landmarks,
             shoulderMid = shoulderMid,
             hipMid = hipMid,
-            result = classify(shoulderMid, hipMid)
+            result = classify(shoulderMid, hipMid, aspectRatio)
         )
     }
 
-    private fun classify(shoulderMid: Landmark, hipMid: Landmark): FallResult {
-        val dx = hipMid.x - shoulderMid.x
+    private fun classify(shoulderMid: Landmark, hipMid: Landmark, aspectRatio: Float): FallResult {
+        // x é normalizado pela largura e y pela altura: reescala x para ficar na mesma unidade de y
+        val dx = (hipMid.x - shoulderMid.x) * aspectRatio
         val dy = hipMid.y - shoulderMid.y
 
-        // ângulo do tronco em relação à linha vertical
-        val angleRad = if (dy == 0f) Math.PI / 2.0
-        else atan(abs(dx.toDouble()) / abs(dy.toDouble()))
-        val angleDeg = Math.toDegrees(angleRad).toFloat()
+        val angleDeg = Math.toDegrees(atan2(abs(dx.toDouble()), abs(dy.toDouble()))).toFloat()
 
         val classification = when {
             angleDeg > THRESHOLD_FALL -> FallClassification.POSSIBLE_FALL

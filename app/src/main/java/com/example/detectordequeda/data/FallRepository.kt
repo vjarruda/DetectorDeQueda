@@ -20,7 +20,8 @@ class FallRepository(context: Context) {
     //detecta a pose e classifica a postura. Retorna null se não houver pessoa.
     fun analyze(bitmap: Bitmap): PoseAnalysis? {
         val landmarks = poseDetector.detect(bitmap) ?: return null
-        return FallDetector.analyze(landmarks)
+        val aspectRatio = bitmap.width.toFloat() / bitmap.height
+        return FallDetector.analyze(landmarks, aspectRatio)
     }
 
     fun close() = poseDetector.close()
