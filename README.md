@@ -2,7 +2,7 @@
 
 Aplicativo Android que analisa uma foto e indica se a pessoa nela está em uma postura que sugere queda. A foto pode ser tirada na hora ou escolhida da galeria. O app localiza o corpo com visão computacional, mede a inclinação do tronco e mostra o resultado sobre a própria imagem.
 
-O projeto nasceu como um micro-projeto de mobile para praticar visão computacional no celular: usar um modelo de pose já treinado, tratar os pontos que ele devolve e transformá-los em uma decisão simples e explicável.
+O projeto nasceu como um micro-projeto de mobile para praticar visão computacional e servir de auxilio para detectar possíveis quedas de pessoas idosas e enfermas utilizando o celular: usando um modelo de pose já treinado, tratando os pontos que ele devolve e transformá-los em uma decisão simples e explicável.
 
 ## O que o app faz
 
@@ -85,7 +85,7 @@ O caminho de uma foto é: botão na tela → `ViewModel` → `FallRepository` �
 
 **Instalando o APK (sem Android Studio):**
 
-1. Baixe o arquivo em [`apk/app-debug.apk`](apk/DetectorDeQueda.apk).
+1. Baixe o arquivo em [`apk/app-debug.apk`](apk/app-debug.apk).
 2. Copie para o celular e abra o arquivo. Se o Android pedir, permita a instalação de apps de fontes desconhecidas.
 3. Abra o app, toque em **Tirar Foto** ou **Galeria** e escolha uma foto com uma pessoa visível.
 
@@ -94,8 +94,6 @@ O caminho de uma foto é: botão na tela → `ViewModel` → `FallRepository` �
 1. Clone o repositório e abra a pasta no Android Studio.
 2. Aguarde o sync do Gradle terminar.
 3. Conecte um celular com depuração USB ativa, ou abra um emulador, e clique em **Run**.
-
-Para gerar o APK: **Build → Build Bundle(s) / APK(s) → Build APK(s)**. O arquivo fica em `app-debug.apk`.
 
 ## Limitações
 
